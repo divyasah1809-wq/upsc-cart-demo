@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1787305171195",
+    "name": "Divya",
+    "email": "divya011801@gmail.com",
+    "salt": "a155a33b54f568647fabb0265e49db20",
+    "passwordHash": "a64deb73110b76739094b1f1beeea7bcee2dd0c0980fdfcd006ef42a1a336e4fda09efb3b7f5c3d14d80f62433a2afabc51b60b4bf2727cc500caf40bab2820c"
+  },
+  {
+    "id": "1787306028209",
+    "name": "Smriti",
+    "email": "abc@gmail.com",
+    "salt": "98c8e504361bf9d75dcab3882da1bfa7",
+    "passwordHash": "826b6431af623d12b07250c0272449625844f33e9e7914eeaafa10ec277448af901b834010719c38d63ce57302822f22cb5325d9a0bbe82909ecdd41e17a3d05"
+  }
+]
