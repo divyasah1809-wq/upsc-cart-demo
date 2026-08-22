@@ -1,16 +1,5 @@
-import fs from "fs";
-import path from "path";
+import { neon } from "@neondatabase/serverless";
 import crypto from "crypto";
-
-function getUsers() {
-  const usersFile = path.join(process.cwd(), "users.json");
-
-  if (!fs.existsSync(usersFile)) {
-    return [];
-  }
-
-  return JSON.parse(fs.readFileSync(usersFile, "utf-8"));
-}
 
 function checkPassword(password, salt, savedHash) {
   const hash = crypto
@@ -20,7 +9,7 @@ function checkPassword(password, salt, savedHash) {
   return hash === savedHash;
 }
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
       message: "Method not allowed.",
@@ -36,23 +25,29 @@ export default function handler(req, res) {
       });
     }
 
-    const users = getUsers();
+    const sql = neon(process.env.DATABASE_URL);
 
-    const user = users.find(
-      (user) =>
-        user.email.toLowerCase() === email.trim().toLowerCase()
-    );
+    const normalizedEmail = email.trim().toLowerCase();
 
-    if (!user) {
+    const users = await sql`
+      SELECT id, name, email, salt, password_hash
+      FROM users
+      WHERE email = ${normalizedEmail}
+      LIMIT 1
+    `;
+
+    if (users.length === 0) {
       return res.status(401).json({
         message: "Invalid email or password.",
       });
     }
 
+    const user = users[0];
+
     const passwordCorrect = checkPassword(
       password,
       user.salt,
-      user.passwordHash
+      user.password_hash
     );
 
     if (!passwordCorrect) {
