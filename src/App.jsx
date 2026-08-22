@@ -2815,11 +2815,11 @@ function App() {
             <button
               className="profile-circle"
               onClick={() => {
-                setSelectedProduct(null);
-                setActivePage("Profile");
+              setSelectedProduct(null);
+              setActivePage("Profile");
               }}
-            >
-              D
+              >
+              {loggedUser ? loggedUser.charAt(0).toUpperCase() : "D"}
             </button>
           </div>
 
